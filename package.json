@@ -1,2 +1,12 @@
-{"name":"dmatx","version":"3.0.0","main":"server.js","scripts":{"start":"node server.js"},"engines":{"node":"engines"},
-"dependencies":{"express":"^4.19.2","better-sqlite3":"^9.4.3","otplib":"^20.x"}}
+{
+  "name": "dmatx",
+  "version": "3.0.0",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": "20.x" },
+  "dependencies": {
+    "express": "^4.19.2",
+    "better-sqlite3": "^9.4.3",
+    "otplib": "^12.0.1"
+  }
+}
