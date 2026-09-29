@@ -28,11 +28,7 @@ async function tick(){const t=IST(),d=t.getUTCDay(),h=t.getUTCHours(),mi=t.getUT
  if(!TOKEN||d===0||d===6||m<555||m>931)return;
  const slot=String(h).padStart(2,'0')+':'+String(Math.floor(mi/5)*5).padStart(2,'0');if(slot===lastSlot)return;
  await safePull();if(!lastErr){save(dayStr(t),slot);lastSlot=slot}else console.error('tick',lastErr)}
-const path=require('path'),fs=require('fs');
-function findIdx(d,n=0){if(n>3)return null;for(const f of fs.readdirSync(d)){if(f==='node_modules'||f==='.git')continue;const p=path.join(d,f);if(fs.statSync(p).isDirectory()){const r=findIdx(p,n+1);if(r)return r}else if(f==='index.html')return p}return null}
-const app=express(),IDX=findIdx(__dirname);
-app.use(express.static(IDX?path.dirname(IDX):path.join(__dirname,'public')));
-app.get('/',(q,r)=>IDX?r.sendFile(IDX):r.status(404).send('index.html not found anywhere in repo'));
+const app=express();app.use(express.static('public'));
 app.get('/api/status',(q,r)=>r.json({fno:Object.keys(MAP).length,hasToken:!!TOKEN,lastErr,lastSlot}));
 app.get('/api/quotes',async(q,r)=>{if(!TOKEN)return r.status(401).json({error:'DHAN_ACCESS_TOKEN not set'});
  try{await safePull();if(lastErr)throw new Error(lastErr);r.json(lastQ)}catch(e){r.status(500).json({error:e.message})}});
